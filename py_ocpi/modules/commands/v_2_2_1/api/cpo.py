@@ -41,14 +41,15 @@ async def apply_pydantic_schema(command: str, data: dict):
     return data
 
 
-async def send_command_result(response_url: str, command: CommandType, auth_token: str, crud: Crud, adapter: Adapter):
+async def send_command_result(command_data: dict, command: CommandType, auth_token: str, crud: Crud, adapter: Adapter):
     client_auth_token = await crud.do(ModuleID.commands, RoleEnum.cpo, Action.get_client_token,
                                       auth_token=auth_token, version=VersionNumber.v_2_2_1)
 
     for _ in range(150):  # check for 5 mins
         # since command has no id, 0 is used for id parameter of crud.get
         command_result = await crud.get(ModuleID.commands, RoleEnum.cpo, 0,
-                                        auth_token=auth_token, version=VersionNumber.v_2_2_1, command=command)
+                                        auth_token=auth_token, version=VersionNumber.v_2_2_1, command=command,
+                                        command_data=command_data)
         if command_result:
             break
         await sleep(2)
@@ -59,8 +60,9 @@ async def send_command_result(response_url: str, command: CommandType, auth_toke
         command_result = adapter.command_result_adapter(command_result, VersionNumber.v_2_2_1)
 
     async with httpx.AsyncClient() as client:
-        authorization_token = f'Token {encode_string_base64(client_auth_token)}'
-        await client.post(response_url, json=command_result.dict(), headers={'authorization': authorization_token})
+        authorization_token = f'Token {client_auth_token}'
+        await client.post(command_data.response_url, json=command_result.dict(),
+                          headers={'authorization': authorization_token})
 
 
 @router.post("/{command}", response_model=OCPIResponse)
@@ -84,7 +86,7 @@ async def receive_command(request: Request, command: CommandType, data: dict, ba
         command_response = await crud.do(ModuleID.commands, RoleEnum.cpo, Action.send_command, command_data.dict(),
                                          command=command, auth_token=auth_token, version=VersionNumber.v_2_2_1)
 
-        background_tasks.add_task(send_command_result, response_url=command_data.response_url,
+        background_tasks.add_task(send_command_result, command_data=command_data,
                                   command=command, auth_token=auth_token, crud=crud, adapter=adapter)
 
         return OCPIResponse(
