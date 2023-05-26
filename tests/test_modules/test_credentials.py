@@ -32,7 +32,7 @@ CREDENTIALS_TOKEN_GET = {
 }
 
 CREDENTIALS_TOKEN_CREATE = {
-    'token': str(uuid4()),
+    'token': encode_string_base64(str(uuid4())),
     'url': '/ocpi/versions',
     'roles': [{
         'role': enums.RoleEnum.emsp,
