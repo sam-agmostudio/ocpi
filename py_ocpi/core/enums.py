@@ -34,6 +34,7 @@ class ModuleID(str, Enum):
     sessions = 'sessions'
     tariffs = 'tariffs'
     tokens = 'tokens'
+    versions = 'versions'
 
 
 class Action(str, Enum):
