@@ -92,7 +92,7 @@ class EVSE(BaseModel):
     uid: CiString(max_length=36)
     evse_id: Optional[CiString(max_length=48)]
     status: Status
-    status_schedule: Optional[StatusSchedule]
+    status_schedule: Optional[List[StatusSchedule]]
     capabilities: List[Capability] = []
     connectors: List[Connector]
     floor_level: Optional[String(max_length=4)]
