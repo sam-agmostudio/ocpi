@@ -151,7 +151,7 @@ class Hours(BaseModel):
     https://github.com/ocpi/ocpi/blob/2.2.1/mod_locations.asciidoc#mod_locations_hours_class
     """
     twentyfourseven: bool
-    regular_hours: List[RegularHours]
+    regular_hours: List[RegularHours] = []
     exceptional_openings: List[ExceptionalPeriod] = []
     exceptional_closings: List[ExceptionalPeriod] = []
 

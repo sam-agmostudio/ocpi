@@ -83,7 +83,7 @@ async def add_or_update_location(request: Request, country_code: CiString(2), pa
     else:
         data = await crud.create(ModuleID.locations, RoleEnum.emsp, location.dict(),
                                  auth_token, country_code=country_code,
-                                 party_id=party_id, version=VersionNumber.v_2_2_1)
+                                 party_id=party_id, location_id=location_id, version=VersionNumber.v_2_2_1)
 
     return OCPIResponse(
         data=[adapter.location_adapter(data).dict()],
