@@ -2,7 +2,7 @@
 OCPI data types based on https://github.com/ocpi/ocpi/blob/2.2.1/types.asciidoc
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Type
 
 from pydantic.fields import ModelField
@@ -86,6 +86,7 @@ class URL(str):
     """
     An URL a String(255) type following the http://www.w3.org/Addressing/URL/uri-spec.html
     """
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
@@ -112,6 +113,7 @@ class DateTime(str):
     The absence of the timezone designator implies a UTC timestamp.
     Fractional seconds MAY be used.
     """
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
@@ -124,8 +126,15 @@ class DateTime(str):
 
     @classmethod
     def validate(cls, v):
-        formated_v = datetime.fromisoformat(v)
-        return cls(formated_v)
+        try:
+            formatted_date = datetime.fromisoformat(v)
+        except ValueError:
+            try:
+                formatted_date = datetime.strptime(v, "%Y-%m-%dT%H:%M:%SZ")
+                formatted_date = formatted_date.replace(tzinfo=timezone.utc)
+            except ValueError:
+                raise ValueError("Invalid datetime format")
+        return cls(formatted_date)
 
     def __repr__(self):
         return f'DateTime({super().__repr__()})'
