@@ -177,8 +177,8 @@ class EnergyMix(BaseModel):
     https://github.com/ocpi/ocpi/blob/2.2.1/mod_locations.asciidoc#mod_locations_energymix_class
     """
     is_green_energy: bool
-    energy_sources: List[EnergySource]
-    environ_impact: Optional[EnvironmentalImpact]
+    energy_sources: Optional[List[EnergySource]]
+    environ_impact: Optional[List[EnvironmentalImpact]]
     supplier_name: String(max_length=64)
     energy_product_name: String(max_length=64)
 
