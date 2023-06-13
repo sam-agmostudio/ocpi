@@ -9,8 +9,8 @@ class Settings(BaseSettings):
     OCPI_HOST: str = 'www.example.com'
     OCPI_PREFIX: str = 'ocpi'
     PUSH_PREFIX: str = 'push'
-    COUNTRY_CODE: str = 'US'
-    PARTY_ID: str = 'NON'
+    COUNTRY_CODE: str = 'MY'
+    PARTY_ID: str = 'CEV'
 
     @classmethod
     @validator("BACKEND_CORS_ORIGINS", pre=True)
