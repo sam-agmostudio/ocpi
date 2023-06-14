@@ -71,6 +71,7 @@ class CdrLocation(BaseModel):
     country: String(3)
     coordinates: GeoLocation
     evse_id: CiString(48)
+    evse_uid: CiString(36)
     connector_id: CiString(36)
     connector_standard: ConnectorType
     connector_format: ConnectorFormat
