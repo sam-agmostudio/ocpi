@@ -86,8 +86,9 @@ async def receive_command(request: Request, command: CommandType, data: dict, ba
         command_response = await crud.do(ModuleID.commands, RoleEnum.cpo, Action.send_command, command_data.dict(),
                                          command=command, auth_token=auth_token, version=VersionNumber.v_2_2_1)
 
-        background_tasks.add_task(send_command_result, command_data=command_data,
-                                  command=command, auth_token=auth_token, crud=crud, adapter=adapter)
+        if command_response['result'] == CommandResponseType.accepted:
+            background_tasks.add_task(send_command_result, command_data=command_data,
+                                      command=command, auth_token=auth_token, crud=crud, adapter=adapter)
 
         return OCPIResponse(
             data=[adapter.command_response_adapter(command_response).dict()],
