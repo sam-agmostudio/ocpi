@@ -43,6 +43,13 @@ ENDPOINTS = {
                 url=URL(f'https://{settings.OCPI_HOST}/{settings.OCPI_PREFIX}/cpo'
                         f'/{VersionNumber.v_2_2_1.value}/{ModuleID.cdrs.value}/')
             ),
+            # commands
+            Endpoint(
+                identifier=ModuleID.commands,
+                role=InterfaceRole.receiver,
+                url=URL(f'https://{settings.OCPI_HOST}/{settings.OCPI_PREFIX}/cpo'
+                        f'/{VersionNumber.v_2_2_1.value}/{ModuleID.commands.value}/')
+            ),
             # tokens
             Endpoint(
                 identifier=ModuleID.tokens,
