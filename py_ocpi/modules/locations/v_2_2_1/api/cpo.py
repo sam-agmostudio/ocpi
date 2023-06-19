@@ -43,7 +43,7 @@ async def get_location(request: Request, location_id: CiString(36),
     data = await crud.get(ModuleID.locations, RoleEnum.cpo, location_id, auth_token=auth_token,
                           version=VersionNumber.v_2_2_1)
     return OCPIResponse(
-        data=[adapter.location_adapter(data).dict()],
+        data=adapter.location_adapter(data).dict(),
         **status.OCPI_1000_GENERIC_SUCESS_CODE,
     )
 
@@ -59,7 +59,7 @@ async def get_evse(request: Request, location_id: CiString(36), evse_uid: CiStri
     for evse in location.evses:
         if evse.uid == evse_uid:
             return OCPIResponse(
-                data=[evse.dict()],
+                data=evse.dict(),
                 **status.OCPI_1000_GENERIC_SUCESS_CODE,
             )
 
@@ -77,6 +77,6 @@ async def get_connector(request: Request, location_id: CiString(36), evse_uid: C
             for connector in evse.connectors:
                 if connector.id == connector_id:
                     return OCPIResponse(
-                        data=[connector.dict()],
+                        data=connector.dict(),
                         **status.OCPI_1000_GENERIC_SUCESS_CODE,
                     )
