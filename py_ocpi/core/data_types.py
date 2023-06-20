@@ -128,12 +128,16 @@ class DateTime(str):
     def validate(cls, v):
         try:
             formatted_date = datetime.fromisoformat(v)
-        except ValueError:
+        except ValueError as e:
             try:
                 formatted_date = datetime.strptime(v, "%Y-%m-%dT%H:%M:%SZ")
                 formatted_date = formatted_date.replace(tzinfo=timezone.utc)
-            except ValueError:
-                raise ValueError("Invalid datetime format")
+            except ValueError as e:
+                try:
+                    formatted_date = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%fZ")
+                    formatted_date = formatted_date.replace(tzinfo=timezone.utc)
+                except:
+                    raise ValueError("Invalid datetime format")
         return cls(formatted_date)
 
     def __repr__(self):
