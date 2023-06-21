@@ -91,7 +91,7 @@ async def receive_command(request: Request, command: CommandType, data: dict, ba
                                       command=command, auth_token=auth_token, crud=crud, adapter=adapter)
 
         return OCPIResponse(
-            data=[adapter.command_response_adapter(command_response).dict()],
+            data=adapter.command_response_adapter(command_response).dict(),
             **status.OCPI_1000_GENERIC_SUCESS_CODE,
         )
 
@@ -99,6 +99,6 @@ async def receive_command(request: Request, command: CommandType, data: dict, ba
     except NotFoundOCPIError:
         command_response = CommandResponse(result=CommandResponseType.rejected, timeout=0)
         return OCPIResponse(
-            data=[command_response.dict()],
+            data=command_response.dict(),
             **status.OCPI_2003_UNKNOWN_LOCATION,
         )
