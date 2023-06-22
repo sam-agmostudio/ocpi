@@ -59,7 +59,7 @@ async def send_command_result(command_data: dict, command: CommandType, auth_tok
     else:
         command_result = adapter.command_result_adapter(command_result, VersionNumber.v_2_2_1)
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=15.0) as client:
         authorization_token = f'Token {client_auth_token}'
         await client.post(command_data.response_url, json=command_result.dict(),
                           headers={'authorization': authorization_token})
