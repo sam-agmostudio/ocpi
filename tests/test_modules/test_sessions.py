@@ -19,6 +19,7 @@ SESSIONS = [
         'start_date_time': '2022-01-02 00:00:00+00:00',
         'end_date_time': '2022-01-02 00:05:00+00:00',
         'kwh': 100,
+        'soc': 15,
         'cdr_token': {
             'country_code': 'us',
             'party_id': 'AAA',
