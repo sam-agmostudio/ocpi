@@ -39,12 +39,12 @@ def request_data(module_id: ModuleID, object_data: dict, adapter: Adapter) -> di
 
 
 async def send_push_request(
-    object_id: str,
-    object_data: dict,
-    module_id: ModuleID,
-    adapter: Adapter,
-    client_auth_token: str,
-    endpoints: list,
+        object_id: str,
+        object_data: dict,
+        module_id: ModuleID,
+        adapter: Adapter,
+        client_auth_token: str,
+        endpoints: list,
 ):
     data = request_data(module_id, object_data, adapter)
 
@@ -55,7 +55,8 @@ async def send_push_request(
 
     # push object to client
     async with httpx.AsyncClient() as client:
-        request = client.build_request(client_method(module_id), client_url(module_id, object_id, base_url),
+        url = client_url(module_id, object_id, base_url)
+        request = client.build_request(client_method(module_id), url,
                                        headers={'authorization': client_auth_token}, json=data)
         response = await client.send(request)
         return response
@@ -112,7 +113,6 @@ websocket_router = APIRouter()
 @websocket_router.websocket("/ws/{version}")
 async def websocket_push_to_client(websocket: WebSocket, version: VersionNumber,
                                    crud: Crud = Depends(get_crud), adapter: Adapter = Depends(get_adapter)):
-
     auth_token = get_auth_token(websocket)
     await websocket.accept()
 
