@@ -193,10 +193,10 @@ class Location(BaseModel):
     publish: bool
     publish_allowed_to: List[PublishTokenType] = []
     name: Optional[String(max_length=255)]
-    address: String
+    address: Optional[String(max_length=600)]
     city: String(max_length=45)
     postal_code: Optional[String(max_length=10)]
-    state: Optional[String]
+    state: Optional[String(max_length=255)]
     country: String(max_length=3)
     coordinates: GeoLocation
     related_locations: List[AdditionalGeoLocation] = []
@@ -222,10 +222,10 @@ class LocationPartialUpdate(BaseModel):
     publish: Optional[bool]
     publish_allowed_to: Optional[List[PublishTokenType]]
     name: Optional[String(max_length=255)]
-    address: Optional[String]
+    address: Optional[String(max_length=600)]
     city: Optional[String(max_length=45)]
     postal_code: Optional[String(max_length=10)]
-    state: Optional[String]
+    state: Optional[String(max_length=255)]
     country: Optional[String(max_length=3)]
     coordinates: Optional[GeoLocation]
     related_locations: Optional[List[AdditionalGeoLocation]]
