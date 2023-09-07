@@ -17,7 +17,7 @@ class Session(BaseModel):
     start_date_time: DateTime
     end_date_time: Optional[DateTime]
     kwh: Number
-    soc: Optional[Number] = 0
+    soc: Optional[Number]
     cdr_token: CdrToken
     auth_method: AuthMethod
     authorization_reference: Optional[CiString(36)]
