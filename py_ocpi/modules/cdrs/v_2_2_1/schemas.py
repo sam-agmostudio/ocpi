@@ -64,10 +64,10 @@ class CdrLocation(BaseModel):
     """
     id: CiString(36)
     name: Optional[String(255)]
-    address: String(600)
+    address: String(45)
     city: String(45)
     postal_code: Optional[String(10)]
-    state: Optional[String(255)]
+    state: Optional[String(20)]
     country: String(3)
     coordinates: GeoLocation
     evse_id: CiString(48)
