@@ -66,7 +66,7 @@ class CdrLocation(BaseModel):
     name: Optional[String(255)]
     address: Optional[String(600)]
     city: String(45)
-    postal_code: Optional[String]
+    postal_code: Optional[String(10)]
     state: Optional[String(255)]
     country: String(3)
     coordinates: GeoLocation
