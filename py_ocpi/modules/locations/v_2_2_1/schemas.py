@@ -193,7 +193,7 @@ class Location(BaseModel):
     publish: bool
     publish_allowed_to: List[PublishTokenType] = []
     name: Optional[String(max_length=255)]
-    address: Optional[String(max_length=600)]
+    address: String(max_length=600)
     city: String(max_length=45)
     postal_code: Optional[String(max_length=10)]
     state: Optional[String(max_length=255)]

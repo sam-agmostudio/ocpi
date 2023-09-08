@@ -64,7 +64,7 @@ class CdrLocation(BaseModel):
     """
     id: CiString(36)
     name: Optional[String(255)]
-    address: Optional[String(600)]
+    address: String(600)
     city: String(45)
     postal_code: Optional[String(10)]
     state: Optional[String(255)]

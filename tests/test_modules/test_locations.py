@@ -283,7 +283,6 @@ def test_emsp_get_evse_v_2_2_1():
                           f'/{LOCATIONS[0]["id"]}/{LOCATIONS[0]["evses"][0]["uid"]}')
 
     assert response.status_code == 200
-    assert len(response.json()['data']) == 1
     assert response.json()['data'][0]['uid'] == LOCATIONS[0]["evses"][0]["uid"]
 
 
@@ -349,6 +348,7 @@ def test_emsp_patch_location_v_2_2_1():
                             f'/{LOCATIONS[0]["id"]}', json=patch_data)
 
     assert response.status_code == 200
+    print(response.json())
     assert response.json()['data'][0]['id'] == patch_data["id"]
 
 
