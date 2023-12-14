@@ -20,7 +20,7 @@ class CommandResponse(BaseModel):
     """
     result: CommandResponseType
     timeout: int
-    message: List[DisplayText] = []
+    message: Optional[List[str]] = []
 
 
 class CommandResult(BaseModel):
@@ -28,7 +28,7 @@ class CommandResult(BaseModel):
     https://github.com/ocpi/ocpi/blob/2.2.1/mod_commands.asciidoc#133-commandresult-object
     """
     result: CommandResultType
-    message: List[DisplayText] = []
+    message: Optional[List[str]] = []
 
 
 class ReserveNow(BaseModel):
