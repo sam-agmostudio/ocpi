@@ -42,9 +42,13 @@ async def add_or_update_session(request: Request, country_code: CiString(2), par
                                  auth_token=auth_token, country_code=country_code,
                                  party_id=party_id, version=VersionNumber.v_2_2_1)
     else:
-        data = await crud.create(ModuleID.sessions, RoleEnum.emsp, session.dict(),
-                                 auth_token=auth_token, country_code=country_code,
-                                 party_id=party_id, version=VersionNumber.v_2_2_1)
+        new_data = await crud.create(ModuleID.sessions, RoleEnum.emsp, session.dict(),
+                                     auth_token=auth_token, country_code=country_code,
+                                     party_id=party_id, version=VersionNumber.v_2_2_1)
+        if isinstance(new_data, bool):
+            data = session.dict()
+        else:
+            data = new_data
 
     return OCPIResponse(
         data=[adapter.session_adapter(data).dict()],
