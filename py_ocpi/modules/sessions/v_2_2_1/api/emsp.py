@@ -47,8 +47,11 @@ async def add_or_update_session(request: Request, country_code: CiString(2), par
                                      party_id=party_id, version=VersionNumber.v_2_2_1)
         if isinstance(new_data, bool):
             data = session.dict()
-        else:
-            data = new_data
+            return OCPIResponse(
+                data=data,
+                **status.OCPI_1000_GENERIC_SUCESS_CODE,
+            )
+        data = new_data
 
     return OCPIResponse(
         data=[adapter.session_adapter(data).dict()],
