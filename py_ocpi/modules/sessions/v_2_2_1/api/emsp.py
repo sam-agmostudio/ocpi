@@ -45,12 +45,20 @@ async def add_or_update_session(request: Request, country_code: CiString(2), par
         new_data = await crud.create(ModuleID.sessions, RoleEnum.emsp, session.dict(),
                                      auth_token=auth_token, country_code=country_code,
                                      party_id=party_id, version=VersionNumber.v_2_2_1)
-        if isinstance(new_data, bool):
-            data = session.dict()
-            return OCPIResponse(
-                data=data,
-                **status.OCPI_1000_GENERIC_SUCESS_CODE,
-            )
+        try:
+            if isinstance(new_data.json(), bool):
+                data = session.dict()
+                return OCPIResponse(
+                    data=data,
+                    **status.OCPI_1000_GENERIC_SUCESS_CODE,
+                )
+        except Exception:
+            if isinstance(new_data, bool):
+                data = session.dict()
+                return OCPIResponse(
+                    data=data,
+                    **status.OCPI_1000_GENERIC_SUCESS_CODE,
+                )
         data = new_data
 
     return OCPIResponse(
