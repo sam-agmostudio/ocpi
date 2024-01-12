@@ -223,7 +223,8 @@ class Price(dict):
         if 'excl_vat' not in v:
             raise TypeError('property "excl_vat" required')
         if 'incl_vat' not in v:
-            raise TypeError('property "incl_vat" required')
+            v['incl_vat'] = v['excl_vat']
+            # raise TypeError('property "incl_vat" required')
         return cls(v)
 
     def __repr__(self):
