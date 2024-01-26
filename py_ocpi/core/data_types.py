@@ -5,7 +5,7 @@ OCPI data types based on https://github.com/ocpi/ocpi/blob/2.2.1/types.asciidoc
 from datetime import datetime, timezone
 from typing import Type
 
-from pydantic import model_validator
+from pydantic.fields import ModelField
 
 
 class StringBase(str):
@@ -15,19 +15,27 @@ class StringBase(str):
     """
     max_length: int
 
-    @model_validator
-    def validate(cls, values):
-        field_name = 'StringBase'  # Use the actual field name here
-        v = values.get(field_name)
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(
+            examples=['String'],
+        )
+
+    @classmethod
+    def validate(cls, v, field: ModelField):
         if not isinstance(v, str):
-            raise TypeError(f'expected string but received {type(v)}')
+            raise TypeError(f'excpected string but received {type(v)}')
         try:
             v.encode('UTF-8')
         except UnicodeError as e:
             raise ValueError('invalid string format') from e
         if len(v) > cls.max_length:
-            raise ValueError(f'{field_name} length must be lower or equal to {cls.max_length}')
-        return values
+            raise ValueError(f'{field.name} length must be lower or equal to {cls.max_length}')
+        return cls(v)
 
     def __repr__(self):
         return f'String({super().__repr__()})'
