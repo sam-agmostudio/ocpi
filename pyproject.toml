@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "py_ocpi"
-version = "0.3.1"
+version = "0.3.1.34"
 description = "Python Implementation of OCPI"
-authors = ["HAkhavan71 <hakh.27@gmail.com>"]
+authors = ["Sam <leews.sam@gmail.com>"]
 readme = "README.rst"
-homepage = "https://github.com/TECHS-Technological-Solutions/ocpi"
+homepage = "https://github.com"
 license = "MIT"
 include = [
     "LICENSE",
@@ -13,7 +13,7 @@ keywords = ["ocpi"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = "^0.68.0"
+fastapi = "^0.108.0"
 httpx = "^0.23.0"
 
 [tool.poetry.dev-dependencies]
